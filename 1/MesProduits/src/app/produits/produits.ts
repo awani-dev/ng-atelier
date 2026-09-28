@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  imports: [CommonModule],
+  imports: [],
   selector: 'app-produits',
   templateUrl: './produits.html',
 })
