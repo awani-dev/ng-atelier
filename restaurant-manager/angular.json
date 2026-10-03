@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "MesProduits": {
+    "restaurant-manager": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -24,13 +24,9 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "styles": ["src/styles.css", "node_modules/bootstrap/dist/css/bootstrap.min.css"],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
@@ -60,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MesProduits:build:production"
+              "buildTarget": "restaurant-manager:build:production"
             },
             "development": {
-              "buildTarget": "MesProduits:build:development"
+              "buildTarget": "restaurant-manager:build:development"
             }
           },
           "defaultConfiguration": "development"
