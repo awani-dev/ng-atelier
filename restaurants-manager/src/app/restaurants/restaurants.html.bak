@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Cuisine</th>
+                <th scope="col">Open Date</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Rating</th>
+                <th scope="col" colspan="2">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+        @for (resto of restaurantsList; track resto.id; ){
+        <tr>
+            <th scope="row">{{resto.id}}</th>
+            <td>{{resto.name}}</td>
+            <td>{{resto.address}}</td>
+            <td>{{resto.cuisineType}}</td>
+            <td>{{resto.dateOpened | date: "dd/MM/yyyy"}}</td>
+            <td>{{resto.capacity}}</td>
+            <td>{{resto.phoneNumber}}</td>
+            <td>{{resto.rating}}</td>
+            <td><a class="btn btn-danger" (click)="rmResto(resto)">Remove</a></td>
+            <td><a class="btn btn-success" [routerLink]="['/update-resto', resto.id]">Modifiy</a></td>
+            <td></td>
+        </tr>
+    }
+    @empty
+    {
+        <tr>
+            <th scope="row" colspan="9">No Restaurants</th>
+        </tr>
+    }
+</tbody>
+    </table>
+</body>
+</html>
