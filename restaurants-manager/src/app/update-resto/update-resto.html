@@ -35,13 +35,16 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Cuisine</label>
-      <input
-        Restaurant
-        type="text"
-        [(ngModel)]="currentResto.cuisineType"
-        name="cuisineType"
-        class="form-control"
-      />
+      <select
+        class="form-control form-control-lg"
+        id="idCuisine"
+        name="idCuisine"
+        [(ngModel)]="updatedCuisineId"
+      >
+        @for (cuisine of cuisineTypes; track cuisine.idCuisine) {
+          <option [value]="cuisine.idCuisine">{{ cuisine.nomCuisine }}</option>
+        }
+      </select>
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Open Date</label>

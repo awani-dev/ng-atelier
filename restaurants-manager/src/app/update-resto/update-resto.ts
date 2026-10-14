@@ -3,6 +3,7 @@ import { Restaurant } from '../models/restaurant';
 import { RestaurantService } from '../services/restaurants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CuisineType } from '../models/cuisine-type';
 
 @Component({
   imports: [FormsModule],
@@ -10,18 +11,26 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './update-resto.html',
 })
 export class UpdateResto {
-  currentResto! : Restaurant;
-  constructor(private restoService : RestaurantService, private router : Router, private activatedRoute : ActivatedRoute){};
+  currentResto!: Restaurant;
+  cuisineTypes!: CuisineType[];
+  updatedCuisineId!: number;
+  constructor(
+    private restoService: RestaurantService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
-  ngOnInit()
-  {
-    this.currentResto = this.restoService.getRestoById( this.activatedRoute.snapshot.params['id']);
+  ngOnInit() {
+    this.cuisineTypes = this.restoService.listeCuisineTypes();
+    this.currentResto = this.restoService.getRestoById(
+      this.activatedRoute.snapshot.params['id'],
+    );
+    this.updatedCuisineId = this.currentResto.cuisineType!.idCuisine;
   }
 
-  updateResto()
-  {
+  updateResto() {
+    this.currentResto.cuisineType = this.restoService.consulterCuisineType(this.updatedCuisineId);
     this.restoService.updateResto(this.currentResto);
     this.router.navigate(['restaurants']);
   }
-  
 }

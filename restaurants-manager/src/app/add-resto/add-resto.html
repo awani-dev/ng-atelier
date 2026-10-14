@@ -5,23 +5,11 @@
   <form>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>ID</label>
-      <input
-        Restaurant
-        type="number"
-        [(ngModel)]="newResto.id"
-        name="id"
-        class="form-control"
-      />
+      <input Restaurant type="number" [(ngModel)]="newResto.id" name="id" class="form-control" />
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Name</label>
-      <input
-        Restaurant
-        type="text"
-        [(ngModel)]="newResto.name"
-        name="name"
-        class="form-control"
-      />
+      <input Restaurant type="text" [(ngModel)]="newResto.name" name="name" class="form-control" />
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Address</label>
@@ -33,15 +21,18 @@
         class="form-control"
       />
     </div>
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label>Cuisine</label>
-      <input
-        Restaurant
-        type="text"
-        [(ngModel)]="newResto.cuisineType"
-        name="cuisineType"
-        class="form-control"
-      />
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Cuisine Type</label>
+      <select
+        class="form-control form-control-lg"
+        id="idCuisine"
+        name="idCuisine"
+        [(ngModel)]="newIdCuisine"
+      >
+        @for (cuisine of cuisineTypes; track cuisine.idCuisine) {
+          <option [value]="cuisine.idCuisine">{{ cuisine.nomCuisine }}</option>
+        }
+      </select>
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Open Date</label>

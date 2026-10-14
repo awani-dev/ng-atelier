@@ -1,4 +1,4 @@
 export class CuisineType {
-  id!: number;
-  name!: string;
+  idCuisine!: number;
+  nomCuisine!: string;
 }

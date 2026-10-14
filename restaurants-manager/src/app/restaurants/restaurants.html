@@ -28,7 +28,7 @@
             <th scope="row">{{resto.id}}</th>
             <td>{{resto.name}}</td>
             <td>{{resto.address}}</td>
-            <td>{{resto.cuisineType}}</td>
+            <td>{{resto.cuisineType?.nomCuisine}}</td>
             <td>{{resto.dateOpened | date: "dd/MM/yyyy"}}</td>
             <td>{{resto.capacity}}</td>
             <td>{{resto.phoneNumber}}</td>
