@@ -10,12 +10,11 @@ import { restoGuard } from './resto-guard';
 
 export const routes: Routes = [
   { path: 'restaurants', component: Restaurants },
-  { path: 'add-resto', component: AddResto },
   { path: 'update-resto/:id', component: UpdateResto },
   { path: '', redirectTo: 'restaurants', pathMatch: 'full' },
   {path: "rechercheParCategorie", component : RechercheParCategorie},
   {path: "rechercheParNom", component : RechercheParNom},
   {path: 'login', component: Login},
   {path: 'app-forbidden', component: Forbidden},
-  {path: "add-produit", component : AddResto, canActivate:[restoGuard]},
+  {path: "add-resto", component : AddResto, canActivate:[restoGuard]},
 ];
