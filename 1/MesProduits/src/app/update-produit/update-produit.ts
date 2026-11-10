@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProduitService } from '../services/produit';
 
-
 @Component({
   selector: 'app-update-produit',
   standalone: true,
@@ -18,20 +17,21 @@ export class UpdateProduit implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private produitService: ProduitService,
-    private router : Router,
-
+    private router: Router,
   ) {}
 
   ngOnInit() {
+    this.produitService
+      .consulterProduit(this.activatedRoute.snapshot.params['id'])
+      .subscribe((prod) => {
+        this.currentProduit = prod;
+      });
     // console.log(this.route.snapshot.params.id);
-    this.currentProduit = this.produitService.consulterProduit(
-      this.activatedRoute.snapshot.params['id'],
-    );
     console.log(this.currentProduit);
   }
-  updateProduit()
-{ //console.log(this.currentProduit);
-this.produitService.updateProduit(this.currentProduit);
-this.router.navigate(['produits']);
-}
+  updateProduit() {
+    this.produitService.updateProduit(this.currentProduit).subscribe((prod) => {
+      this.router.navigate(['produits']);
+    });
+  }
 }

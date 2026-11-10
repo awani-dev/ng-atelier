@@ -5,9 +5,10 @@ import { RestaurantService } from '../services/restaurants';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SearchFilterPipe } from '../search-filter-pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [FormsModule, CommonModule, DatePipe, SearchFilterPipe],
+  imports: [FormsModule, CommonModule, DatePipe, SearchFilterPipe, RouterLink],
   selector: 'app-recherche-par-nom',
   styles: ``,
   templateUrl: './recherche-par-nom.html',
@@ -15,7 +16,7 @@ import { SearchFilterPipe } from '../search-filter-pipe';
 export class RechercheParNom {
   cuisineTypes!: CuisineType[];
   restaurantsList!: Restaurant[];
-  searchTerm : string = '';
+  searchTerm: string = '';
   constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit() {
@@ -27,11 +28,15 @@ export class RechercheParNom {
   //}
   onKeyUp(event: KeyboardEvent) {
     const inputElement = event.target as HTMLInputElement;
-    this.restaurantsList = this.restaurantService.rechercherParNom(inputElement.value.toLowerCase());
+    this.restaurantsList = this.restaurantService.rechercherParNom(
+      inputElement.value.toLowerCase(),
+    );
   }
   /*onKeyUp(event: KeyboardEvent) {
     const inputElement = event.target as HTMLInputElement;
     this.restaurantsList = this.restaurantService.rechercherParNom(inputElement.value.toLowerCase());
   }*/
-
+  rmResto(r: Restaurant) {
+    this.restaurantService.removeRestaurant(r);
+  }
 }

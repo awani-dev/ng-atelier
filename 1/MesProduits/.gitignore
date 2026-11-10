@@ -38,6 +38,7 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+api_rest_produits.jar
 
 # System files
 .DS_Store

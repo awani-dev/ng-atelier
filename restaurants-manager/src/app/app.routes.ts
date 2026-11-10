@@ -4,6 +4,9 @@ import { AddResto } from './add-resto/add-resto';
 import { UpdateResto } from './update-resto/update-resto';
 import { RechercheParCategorie } from './recherche-par-categorie/recherche-par-categorie';
 import { RechercheParNom } from './recherche-par-nom/recherche-par-nom';
+import { Login } from './login/login';
+import { Forbidden } from './forbidden/forbidden';
+import { restoGuard } from './resto-guard';
 
 export const routes: Routes = [
   { path: 'restaurants', component: Restaurants },
@@ -12,4 +15,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'restaurants', pathMatch: 'full' },
   {path: "rechercheParCategorie", component : RechercheParCategorie},
   {path: "rechercheParNom", component : RechercheParNom},
+  {path: 'login', component: Login},
+  {path: 'app-forbidden', component: Forbidden},
+  {path: "add-produit", component : AddResto, canActivate:[restoGuard]},
 ];

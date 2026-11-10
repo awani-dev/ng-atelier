@@ -47,6 +47,8 @@
             <td>{{resto.capacity}}</td>
             <td>{{resto.phoneNumber}}</td>
             <td>{{resto.rating}}</td>
+            <td><a class="btn btn-danger" (click)="rmResto(resto)">Remove</a></td>
+            <td><a class="btn btn-success" [routerLink]="['/update-resto', resto.id]">Modifiy</a></td>
         </tr>
     }
     @empty

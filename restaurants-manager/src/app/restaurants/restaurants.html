@@ -18,7 +18,9 @@
                 <th scope="col">Capacity</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Rating</th>
-                <th scope="col" colspan="2">Actions</th>
+                            @if(authService.isAdmin()) {
+
+                <th scope="col" colspan="2">Actions</th>}
             </tr>
         </thead>
         
@@ -33,9 +35,10 @@
             <td>{{resto.capacity}}</td>
             <td>{{resto.phoneNumber}}</td>
             <td>{{resto.rating}}</td>
+            @if(authService.isAdmin()) {
             <td><a class="btn btn-danger" (click)="rmResto(resto)">Remove</a></td>
             <td><a class="btn btn-success" [routerLink]="['/update-resto', resto.id]">Modifiy</a></td>
-            <td></td>
+            }
         </tr>
     }
     @empty

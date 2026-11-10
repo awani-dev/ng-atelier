@@ -5,7 +5,7 @@ import { Restaurant } from './models/restaurant';
   name: 'searchFilter',
 })
 export class SearchFilterPipe implements PipeTransform {
-  transform(list: Restaurant[], filterText: string): any {
+  transform(list: Restaurant[], filterText: string): Restaurant[] {
     return list ? list.filter((item) => item.name?.toLowerCase().includes(filterText)) : [];
   }
 }

@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Auth } from './services/auth';
 
 @Component({
   imports: [RouterOutlet, RouterLink],
@@ -9,4 +10,19 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('restaurant-manager');
+  constructor(
+    public authService: Auth,
+    public router: Router,
+  ) {}
+  ngOnInit() {
+    let isloggedin: string;
+    let loggedUser: string;
+    isloggedin = localStorage.getItem('isloggedIn')!;
+    loggedUser = localStorage.getItem('loggedUser')!;
+    if (isloggedin != 'true' || !loggedUser) this.router.navigate(['/login']);
+    else this.authService.setLoggedUserFromLocalStorage(loggedUser);
+  }
+  onLogout() {
+    this.authService.logout();
+  }
 }

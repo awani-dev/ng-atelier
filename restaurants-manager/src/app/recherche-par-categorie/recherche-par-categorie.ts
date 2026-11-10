@@ -1,13 +1,13 @@
 import { Component, NgModule } from '@angular/core';
 import { CuisineType } from '../models/cuisine-type';
 import { RestaurantService } from '../services/restaurants';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Restaurant } from '../models/restaurant';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
-  imports: [DatePipe, FormsModule, CommonModule],
+  imports: [DatePipe, FormsModule, CommonModule, RouterLink],
   selector: 'app-recherche-par-categorie',
   styles: ``,
   templateUrl: './recherche-par-categorie.html',
@@ -24,6 +24,9 @@ export class RechercheParCategorie {
   }
   onChange() {
     this.restaurantsList = this.restaurantService.rechercherParCategorie(this.CuisineId);
+  }
+  rmResto(r : Restaurant){
+    this.restaurantService.removeRestaurant(r);
   }
 
 }
