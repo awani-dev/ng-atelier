@@ -1,0 +1,28 @@
+<form (ngSubmit)="saveCuisineType()">
+  <div class="mb-3" [hidden]="ajout">
+    <label for="cuisine-type-id" class="form-label">ID cuisine</label>
+    <input
+      id="cuisine-type-id"
+      class="form-control"
+      type="number"
+      [ngModel]="draft.idCuisine"
+      name="idCuisine"
+      readonly
+    />
+  </div>
+  <div class="mb-3">
+    <label for="cuisine-type-name" class="form-label">Nom de la cuisine</label>
+    <input
+      id="cuisine-type-name"
+      class="form-control"
+      type="text"
+      [(ngModel)]="draft.nomCuisine"
+      name="nomCuisine"
+      placeholder="Saisir un nom de cuisine"
+      required
+    />
+  </div>
+  <button class="btn btn-success" type="submit" [disabled]="!draft.nomCuisine.trim()">
+    {{ ajout ? 'Ajouter' : 'Modifier' }}
+  </button>
+</form>

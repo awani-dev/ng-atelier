@@ -7,14 +7,16 @@ import { RechercheParNom } from './recherche-par-nom/recherche-par-nom';
 import { Login } from './login/login';
 import { Forbidden } from './forbidden/forbidden';
 import { restoGuard } from './resto-guard';
+import { CuisineTypes } from './cuisine-types/cuisine-types';
 
 export const routes: Routes = [
   { path: 'restaurants', component: Restaurants },
   { path: 'update-resto/:id', component: UpdateResto },
   { path: '', redirectTo: 'restaurants', pathMatch: 'full' },
-  {path: "rechercheParCategorie", component : RechercheParCategorie},
-  {path: "rechercheParNom", component : RechercheParNom},
-  {path: 'login', component: Login},
-  {path: 'app-forbidden', component: Forbidden},
-  {path: "add-resto", component : AddResto, canActivate:[restoGuard]},
+  { path: 'rechercheParCategorie', component: RechercheParCategorie },
+  { path: 'rechercheParNom', component: RechercheParNom },
+  { path: 'login', component: Login },
+  { path: 'app-forbidden', component: Forbidden },
+  { path: 'add-resto', component: AddResto, canActivate: [restoGuard] },
+  { path: 'cuisine-types', component: CuisineTypes, canActivate: [restoGuard] },
 ];

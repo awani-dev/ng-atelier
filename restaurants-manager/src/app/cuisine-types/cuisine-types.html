@@ -1,0 +1,73 @@
+<main class="container py-4">
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h3 mb-1">Gestion des types de cuisine</h1>
+      <p class="text-body-secondary mb-0">{{ cuisineTypes.length }} types enregistrés</p>
+    </div>
+    <button class="btn btn-outline-primary" type="button" (click)="startAddingCuisineType()">
+      Nouveau type
+    </button>
+  </div>
+
+  @if (message) {
+    <div class="alert" [class.alert-danger]="messageIsError" [class.alert-success]="!messageIsError" role="status">
+      {{ message }}
+    </div>
+  }
+
+  <section class="row g-4">
+    <div class="col-12 col-lg-4">
+      <h2 class="h5 mb-3">{{ ajout ? 'Ajouter un type' : 'Modifier le type' }}</h2>
+      <app-update-cuisine-type
+        [cuisineType]="updatedCuisineType"
+        [ajout]="ajout"
+        (cuisineTypeSaved)="saveCuisineType($event)"
+      />
+    </div>
+
+    <div class="col-12 col-lg-8">
+      <h2 class="h5 mb-3">Types existants</h2>
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nom de la cuisine</th>
+              <th scope="col" class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cuisineType of cuisineTypes; track cuisineType.idCuisine) {
+              <tr>
+                <td>{{ cuisineType.idCuisine }}</td>
+                <td>{{ cuisineType.nomCuisine }}</td>
+                <td class="text-end text-nowrap">
+                  <button
+                    class="btn btn-sm btn-outline-primary me-2"
+                    type="button"
+                    (click)="selectCuisineType(cuisineType)"
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    type="button"
+                    (click)="deleteCuisineType(cuisineType)"
+                  >
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="text-center text-body-secondary py-4">
+                  Aucun type de cuisine.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>

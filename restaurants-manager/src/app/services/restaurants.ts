@@ -204,6 +204,41 @@ export class RestaurantService {
     return this.cuisineTypes;
   }
 
+  ajouterCuisineType(cuisineType: CuisineType): CuisineType {
+    const nextId = Math.max(0, ...this.cuisineTypes.map((type) => type.idCuisine)) + 1;
+    const newCuisineType = { ...cuisineType, idCuisine: nextId };
+    this.cuisineTypes.push(newCuisineType);
+    return newCuisineType;
+  }
+
+  modifierCuisineType(cuisineType: CuisineType): boolean {
+    const existing = this.cuisineTypes.find(
+      (type) => type.idCuisine === cuisineType.idCuisine,
+    );
+    if (!existing) return false;
+
+    existing.nomCuisine = cuisineType.nomCuisine;
+    this.restaurants.forEach((restaurant) => {
+      if (restaurant.cuisineType?.idCuisine === cuisineType.idCuisine) {
+        restaurant.cuisineType.nomCuisine = cuisineType.nomCuisine;
+      }
+    });
+    return true;
+  }
+
+  supprimerCuisineType(idCuisine: number): boolean {
+    const isInUse = this.restaurants.some(
+      (restaurant) => restaurant.cuisineType?.idCuisine === idCuisine,
+    );
+    if (isInUse) return false;
+
+    const index = this.cuisineTypes.findIndex((type) => type.idCuisine === idCuisine);
+    if (index < 0) return false;
+
+    this.cuisineTypes.splice(index, 1);
+    return true;
+  }
+
   consulterCuisineType(id: number): CuisineType {
     return this.cuisineTypes.find((cat) => cat.idCuisine == id)!;
   }
