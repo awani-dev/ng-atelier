@@ -4,9 +4,7 @@
       <h1 class="h3 mb-1">Gestion des types de cuisine</h1>
       <p class="text-body-secondary mb-0">{{ cuisineTypes.length }} types enregistrés</p>
     </div>
-    <button class="btn btn-outline-primary" type="button" (click)="startAddingCuisineType()">
-      Nouveau type
-    </button>
+   
   </div>
 
   @if (message) {
@@ -25,7 +23,6 @@
       />
     </div>
 
-    <div class="col-12 col-lg-8">
       <h2 class="h5 mb-3">Types existants</h2>
       <div class="table-responsive">
         <table class="table table-striped align-middle">
@@ -43,14 +40,14 @@
                 <td>{{ cuisineType.nomCuisine }}</td>
                 <td class="text-end text-nowrap">
                   <button
-                    class="btn btn-sm btn-outline-primary me-2"
+                    class="btn btn-sm btn-success me-2"
                     type="button"
                     (click)="selectCuisineType(cuisineType)"
                   >
-                    Modifier
+                    Editer
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     type="button"
                     (click)="deleteCuisineType(cuisineType)"
                   >
@@ -68,6 +65,5 @@
           </tbody>
         </table>
       </div>
-    </div>
   </section>
 </main>
