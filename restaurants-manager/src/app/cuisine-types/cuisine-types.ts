@@ -22,7 +22,7 @@ export class CuisineTypes {
   }
 
   chargerCuisineTypes(): void {
-    this.cuisineTypes = [...this.restaurantService.listeCuisineTypes()];
+    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
   }
 
   selectCuisineType(cuisineType: CuisineType): void {
@@ -38,27 +38,36 @@ export class CuisineTypes {
 
   saveCuisineType(cuisineType: CuisineType): void {
     if (this.ajout) {
-      this.restaurantService.ajouterCuisineType(cuisineType);
-      this.message = 'Type de cuisine ajouté.';
-      this.messageIsError = false;
+      this.restaurantService.ajouterCuisineType(cuisineType).subscribe(() => {
+        this.message = 'Type de cuisine ajouté.';
+        this.messageIsError = false;
+        this.chargerCuisineTypes();
+      }, () => {
+        this.message = 'Impossible d’ajouter ce type de cuisine.';
+        this.messageIsError = true;
+      });
     } else {
-      const updated = this.restaurantService.modifierCuisineType(cuisineType);
-      this.message = updated
-        ? 'Type de cuisine modifié.'
-        : 'Ce type de cuisine n’existe plus.';
-      this.messageIsError = !updated;
+      this.restaurantService.modifierCuisineType(cuisineType).subscribe(() => {
+        this.message = 'Type de cuisine modifié.';
+        this.messageIsError = false;
+        this.chargerCuisineTypes();
+      }, () => {
+        this.message = 'Ce type de cuisine ne peut pas être modifié.';
+        this.messageIsError = true;
+      });
     }
 
-    this.chargerCuisineTypes();
     this.startAddingCuisineType();
   }
 
   deleteCuisineType(cuisineType: CuisineType): void {
-    const deleted = this.restaurantService.supprimerCuisineType(cuisineType.idCuisine);
-    this.message = deleted
-      ? 'Type de cuisine supprimé.'
-      : 'Impossible de supprimer ce type : il est utilisé par au moins un restaurant.';
-    this.messageIsError = !deleted;
-    this.chargerCuisineTypes();
+    this.restaurantService.supprimerCuisineType(cuisineType.idCuisine).subscribe(() => {
+      this.message = 'Type de cuisine supprimé.';
+      this.messageIsError = false;
+      this.chargerCuisineTypes();
+    }, () => {
+      this.message = 'Impossible de supprimer ce type : il est utilisé par au moins un restaurant.';
+      this.messageIsError = true;
+    });
   }
 }

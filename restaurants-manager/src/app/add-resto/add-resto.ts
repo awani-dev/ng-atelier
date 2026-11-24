@@ -22,13 +22,12 @@ export class AddResto {
   ) {}
 
   ngOnInit() {
-  this.cuisineTypes = this.restaurantService.listeCuisineTypes();
+    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
 }
 
   addResto() {
-    this.newCuisineType = this.restaurantService.consulterCuisineType(this.newIdCuisine);
+    this.newCuisineType = this.cuisineTypes.find(type => type.idCuisine === Number(this.newIdCuisine))!;
     this.newResto.cuisineType = this.newCuisineType;
-    this.restaurantService.addRestaurant(this.newResto);
-    this.route.navigate(['restaurants']);
+    this.restaurantService.addRestaurant(this.newResto).subscribe(() => this.route.navigate(['restaurants']));
   }
 }

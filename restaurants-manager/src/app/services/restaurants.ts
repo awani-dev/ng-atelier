@@ -1,9 +1,10 @@
-import { Service } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Restaurant } from '../models/restaurant';
 import { CuisineType } from '../models/cuisine-type';
 import { Observable } from 'rxjs';
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class RestaurantService {
   cuisineTypes: CuisineType[] = [
     { idCuisine: 1, nomCuisine: 'Italian' },
@@ -176,77 +177,52 @@ export class RestaurantService {
     { id: 91, name: 'Kingston Lounge', address: 'La Marsa Plage, Tunis', cuisineType: { idCuisine: 25, nomCuisine: 'Caribbean' }, dateOpened: new Date('2022-08-12'), capacity: 50, phoneNumber: '+216 71 999 446', rating: 4.1 }
   ];
 
-  restaurantsList(): Restaurant[] {
-    return this.restaurants;
+  private readonly apiUrl = 'http://localhost:8090/api';
+
+  constructor(private readonly http: HttpClient) {}
+
+  restaurantsList(): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.apiUrl}/restaurants`);
   }
 
-  addRestaurant(r: Restaurant) {
-    this.restaurants.push(r);
-  }
-  removeRestaurant(r: Restaurant) {
-    const index = this.restaurants.indexOf(r, 0);
-    if (index > -1) {
-      this.restaurants.splice(index, 1);
-    }
+  addRestaurant(restaurant: Restaurant): Observable<Restaurant> {
+    return this.http.post<Restaurant>(`${this.apiUrl}/restaurants`, restaurant);
   }
 
-  getRestoById(id: number): Restaurant {
-    return this.restaurants.find((r) => r.id == id)!;
-  }
-  updateResto(r: Restaurant) {
-    const index = this.restaurants.indexOf(r, 0);
-    if (index > -1) {
-      this.restaurants.splice(index, 1);
-      this.restaurants.splice(index, 0, r);
-    }
-  }
-  listeCuisineTypes(): CuisineType[] {
-    return this.cuisineTypes;
+  removeRestaurant(restaurant: Restaurant): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/restaurants/${restaurant.id}`);
   }
 
-  ajouterCuisineType(cuisineType: CuisineType): CuisineType {
-    const nextId = Math.max(0, ...this.cuisineTypes.map((type) => type.idCuisine)) + 1;
-    const newCuisineType = { ...cuisineType, idCuisine: nextId };
-    this.cuisineTypes.push(newCuisineType);
-    return newCuisineType;
+  getRestoById(id: number): Observable<Restaurant> {
+    return this.http.get<Restaurant>(`${this.apiUrl}/restaurants/${id}`);
   }
 
-  modifierCuisineType(cuisineType: CuisineType): boolean {
-    const existing = this.cuisineTypes.find(
-      (type) => type.idCuisine === cuisineType.idCuisine,
-    );
-    if (!existing) return false;
-
-    existing.nomCuisine = cuisineType.nomCuisine;
-    this.restaurants.forEach((restaurant) => {
-      if (restaurant.cuisineType?.idCuisine === cuisineType.idCuisine) {
-        restaurant.cuisineType.nomCuisine = cuisineType.nomCuisine;
-      }
-    });
-    return true;
+  updateResto(restaurant: Restaurant): Observable<Restaurant> {
+    return this.http.put<Restaurant>(`${this.apiUrl}/restaurants/${restaurant.id}`, restaurant);
   }
 
-  supprimerCuisineType(idCuisine: number): boolean {
-    const isInUse = this.restaurants.some(
-      (restaurant) => restaurant.cuisineType?.idCuisine === idCuisine,
-    );
-    if (isInUse) return false;
-
-    const index = this.cuisineTypes.findIndex((type) => type.idCuisine === idCuisine);
-    if (index < 0) return false;
-
-    this.cuisineTypes.splice(index, 1);
-    return true;
+  listeCuisineTypes(): Observable<CuisineType[]> {
+    return this.http.get<CuisineType[]>(`${this.apiUrl}/cuisine-types`);
   }
 
-  consulterCuisineType(id: number): CuisineType {
-    return this.cuisineTypes.find((cat) => cat.idCuisine == id)!;
+  ajouterCuisineType(cuisineType: CuisineType): Observable<CuisineType> {
+    return this.http.post<CuisineType>(`${this.apiUrl}/cuisine-types`, cuisineType);
   }
-  rechercherParCategorie(idCuisine: number) : Restaurant[]{
-    return this.restaurants.filter((value)=> value.cuisineType?.idCuisine == idCuisine );
+
+  modifierCuisineType(cuisineType: CuisineType): Observable<CuisineType> {
+    return this.http.put<CuisineType>(`${this.apiUrl}/cuisine-types/${cuisineType.idCuisine}`, cuisineType);
   }
-  rechercherParNom(nom: string) : Restaurant[]{
-    return this.restaurants.filter((value)=> value.name?.toLowerCase().includes(nom));
+
+  supprimerCuisineType(idCuisine: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/cuisine-types/${idCuisine}`);
+  }
+
+  rechercherParCategorie(idCuisine: number): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.apiUrl}/restaurants/by-cuisine/${idCuisine}`);
+  }
+
+  rechercherParNom(nom: string): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.apiUrl}/restaurants/search`, { params: { name: nom } });
   }
 
 }

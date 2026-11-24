@@ -19,14 +19,14 @@ export class RechercheParCategorie {
   constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit() {
-    this.restaurantsList = this.restaurantService.restaurantsList();
-    this.cuisineTypes = this.restaurantService.listeCuisineTypes();
+    this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList = restaurants);
+    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
   }
   onChange() {
-    this.restaurantsList = this.restaurantService.rechercherParCategorie(this.CuisineId);
+    this.restaurantService.rechercherParCategorie(Number(this.CuisineId)).subscribe(restaurants => this.restaurantsList = restaurants);
   }
   rmResto(r : Restaurant){
-    this.restaurantService.removeRestaurant(r);
+    this.restaurantService.removeRestaurant(r).subscribe(() => this.onChange());
   }
 
 }

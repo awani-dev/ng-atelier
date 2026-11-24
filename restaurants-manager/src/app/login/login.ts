@@ -21,9 +21,9 @@ export class Login {
   ) {}
 
   onLoggedin() {
-    console.log(this.user);
-    let isValidUser: Boolean = this.authService.SignIn(this.user);
-    if (isValidUser) this.router.navigate(['/']);
-    else this.erreur = true;
+    this.authService.SignIn(this.user).subscribe(isValidUser => {
+      if (isValidUser) this.router.navigate(['/']);
+      else this.erreur = true;
+    });
   }
 }

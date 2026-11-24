@@ -21,16 +21,16 @@ export class UpdateResto {
   ) {}
 
   ngOnInit() {
-    this.cuisineTypes = this.restoService.listeCuisineTypes();
-    this.currentResto = this.restoService.getRestoById(
-      this.activatedRoute.snapshot.params['id'],
-    );
-    this.updatedCuisineId = this.currentResto.cuisineType!.idCuisine;
+    const id = Number(this.activatedRoute.snapshot.params['id']);
+    this.restoService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
+    this.restoService.getRestoById(id).subscribe(restaurant => {
+      this.currentResto = restaurant;
+      this.updatedCuisineId = restaurant.cuisineType!.idCuisine;
+    });
   }
 
   updateResto() {
-    this.currentResto.cuisineType = this.restoService.consulterCuisineType(this.updatedCuisineId);
-    this.restoService.updateResto(this.currentResto);
-    this.router.navigate(['restaurants']);
+    this.currentResto.cuisineType = this.cuisineTypes.find(type => type.idCuisine === Number(this.updatedCuisineId));
+    this.restoService.updateResto(this.currentResto).subscribe(() => this.router.navigate(['restaurants']));
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RestaurantService } from '../services/restaurants';
 import { Restaurant } from '../models/restaurant';
 import { DatePipe } from '@angular/common';
@@ -11,14 +11,21 @@ import { Auth } from '../services/auth';
   templateUrl: './restaurants.html',
 })
 export class Restaurants {
-  restaurantsList : Restaurant[];
+  restaurantsList = signal<Restaurant[]>([]);
   
   constructor(private restaurantService : RestaurantService, public authService: Auth){
-    this.restaurantsList = restaurantService.restaurantsList();
   };
 
+  ngOnInit() {
+    this.loadRestaurants();
+  }
+
+  loadRestaurants() {
+    this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList.set(restaurants));
+  }
+
   rmResto(r : Restaurant){
-    this.restaurantService.removeRestaurant(r);
+    this.restaurantService.removeRestaurant(r).subscribe(() => this.loadRestaurants());
   }
 
 }

@@ -20,23 +20,21 @@ export class RechercheParNom {
   constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit() {
-    this.restaurantsList = this.restaurantService.restaurantsList();
-    this.cuisineTypes = this.restaurantService.listeCuisineTypes();
+    this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList = restaurants);
+    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
   }
   //onClick() {
   //  this.restaurantsList = this.restaurantService.rechercherParNom(this.searchTerm.toLowerCase());
   //}
   onKeyUp(event: KeyboardEvent) {
     const inputElement = event.target as HTMLInputElement;
-    this.restaurantsList = this.restaurantService.rechercherParNom(
-      inputElement.value.toLowerCase(),
-    );
+    this.restaurantService.rechercherParNom(inputElement.value.toLowerCase()).subscribe(restaurants => this.restaurantsList = restaurants);
   }
   /*onKeyUp(event: KeyboardEvent) {
     const inputElement = event.target as HTMLInputElement;
     this.restaurantsList = this.restaurantService.rechercherParNom(inputElement.value.toLowerCase());
   }*/
   rmResto(r: Restaurant) {
-    this.restaurantService.removeRestaurant(r);
+    this.restaurantService.removeRestaurant(r).subscribe(() => this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList = restaurants));
   }
 }
