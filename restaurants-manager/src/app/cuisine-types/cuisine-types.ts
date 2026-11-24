@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CuisineType } from '../models/cuisine-type';
 import { RestaurantService } from '../services/restaurants';
 import { UpdateCuisineType } from '../update-cuisine-type/update-cuisine-type';
@@ -9,7 +9,7 @@ import { UpdateCuisineType } from '../update-cuisine-type/update-cuisine-type';
   templateUrl: './cuisine-types.html',
 })
 export class CuisineTypes {
-  cuisineTypes: CuisineType[] = [];
+  cuisineTypes = signal<CuisineType[]>([]);
   updatedCuisineType: CuisineType = { idCuisine: 0, nomCuisine: '' };
   ajout = true;
   message = '';
@@ -22,7 +22,7 @@ export class CuisineTypes {
   }
 
   chargerCuisineTypes(): void {
-    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
+    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes.set(types));
   }
 
   selectCuisineType(cuisineType: CuisineType): void {

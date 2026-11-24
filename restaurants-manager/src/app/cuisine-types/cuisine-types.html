@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
     <div>
       <h1 class="h3 mb-1">Gestion des types de cuisine</h1>
-      <p class="text-body-secondary mb-0">{{ cuisineTypes.length }} types enregistrés</p>
+      <p class="text-body-secondary mb-0">{{ cuisineTypes().length }} types enregistrés</p>
     </div>
    
   </div>
@@ -34,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (cuisineType of cuisineTypes; track cuisineType.idCuisine) {
+            @for (cuisineType of cuisineTypes(); track cuisineType.idCuisine) {
               <tr>
                 <td>{{ cuisineType.idCuisine }}</td>
                 <td>{{ cuisineType.nomCuisine }}</td>

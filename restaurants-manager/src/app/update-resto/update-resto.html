@@ -1,3 +1,4 @@
+@if (loaded()) {
 <div class="container">
   <div>
     <h2>Restaurant :</h2>
@@ -41,7 +42,7 @@
         name="idCuisine"
         [(ngModel)]="updatedCuisineId"
       >
-        @for (cuisine of cuisineTypes; track cuisine.idCuisine) {
+        @for (cuisine of cuisineTypes(); track cuisine.idCuisine) {
           <option [value]="cuisine.idCuisine">{{ cuisine.nomCuisine }}</option>
         }
       </select>
@@ -92,3 +93,10 @@
     </div>
   </form>
 </div>
+} @else {
+  @if (loadError()) {
+    <p class="container py-4 alert alert-warning" role="alert">Restaurant not found or could not be loaded.</p>
+  } @else {
+    <p class="container py-4" role="status">Loading restaurant...</p>
+  }
+}
