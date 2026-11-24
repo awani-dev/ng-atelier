@@ -7,24 +7,15 @@
   </head>
   <body>
     <div class="form-group mx-sm-3 mb-2 mt-2">
-      <label>Nom Produit en tapant</label>
-      <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control" />
-
-    </div>
-    <!-- <div class="form-group mx-sm-3 mb-2 mt-2">
-      <label>Nom Produit</label>
+      <label for="searchTerm">Restaurant name</label>
       <input
-        type="text"
-        class="form-control"
+        id="searchTerm"
         [(ngModel)]="searchTerm"
-        name="nomProduit"
+        (ngModelChange)="searchRestaurants($event)"
+        name="searchTerm"
         class="form-control"
-        (keyup)="onKeyUp($event)"
-      /> 
-      <button type="submit" (click)="onClick()" class="btn btn-primary mb-2 ml-2">
-        Rechercher
-      </button>
-    </div> -->
+      />
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -41,7 +32,7 @@
       </thead>
 
       <tbody>
-        @for (resto of restaurantsList | searchFilter: searchTerm ; track resto.id) {
+        @for (resto of restaurantsList; track resto.id) {
           <tr>
             <th scope="row">{{ resto.id }}</th>
             <td>{{ resto.name }}</td>

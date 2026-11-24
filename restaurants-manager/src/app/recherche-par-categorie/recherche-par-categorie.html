@@ -12,11 +12,12 @@
         class="form-control form-control-lg"
         id="idCuisine"
         name="idCuisine"
-        [(ngModel)]="CuisineId"
+                [(ngModel)]="cuisineId"
         (change)="onChange()"
       >
+            <option [ngValue]="null">All cuisines</option>
         @for (cuisine of cuisineTypes; track cuisine.idCuisine) {
-          <option [value]="cuisine.idCuisine">{{ cuisine.nomCuisine }}</option>
+                    <option [ngValue]="cuisine.idCuisine">{{ cuisine.nomCuisine }}</option>
         }
       </select>
     </div>

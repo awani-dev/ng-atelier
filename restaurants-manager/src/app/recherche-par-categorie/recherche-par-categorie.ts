@@ -1,10 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { CuisineType } from '../models/cuisine-type';
 import { RestaurantService } from '../services/restaurants';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Restaurant } from '../models/restaurant';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   imports: [DatePipe, FormsModule, CommonModule, RouterLink],
@@ -15,16 +15,24 @@ import { FormsModule, NgModel } from '@angular/forms';
 export class RechercheParCategorie {
   cuisineTypes!: CuisineType[];
   restaurantsList!: Restaurant[];
-  CuisineId! : number;
+  cuisineId: number | null = null;
   constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit() {
     this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList = restaurants);
-    this.restaurantService.listeCuisineTypes().subscribe(types => this.cuisineTypes = types);
+    this.restaurantService.listeCuisineTypes().subscribe(types => {
+      this.cuisineTypes = types;
+    });
   }
+
   onChange() {
-    this.restaurantService.rechercherParCategorie(Number(this.CuisineId)).subscribe(restaurants => this.restaurantsList = restaurants);
+    if (this.cuisineId === null) {
+      this.restaurantService.restaurantsList().subscribe(restaurants => this.restaurantsList = restaurants);
+      return;
+    }
+    this.restaurantService.rechercherParCategorie(this.cuisineId).subscribe(restaurants => this.restaurantsList = restaurants);
   }
+
   rmResto(r : Restaurant){
     this.restaurantService.removeRestaurant(r).subscribe(() => this.onChange());
   }
